@@ -17,7 +17,7 @@ func NewPaymentControllerImpl(p *gin.RouterGroup, Payment usecase.PaymentUsecase
 	handler := PaymentController{Payment}
 
 	p.GET("/getAllRequestPayment", handler.GetAllRequest)
-	p.GET("/list_payment", handler.GetReqByUnit)
+	p.POST("/list_payment", handler.GetReqByUnit)
 	p.POST("/statusPayment", handler.AddStatusReqController)
 	p.POST("/payment/status/:type", handler.ApprovalReqPayment)
 }
@@ -39,9 +39,16 @@ func (pc PaymentController) GetAllRequest(c *gin.Context) {
 }
 
 func (pc PaymentController) GetReqByUnit(c *gin.Context)  {
-	id := c.Query("id")
+	id := c.Query("id_unit")
 
-	reqData := pc.Payment.GetReqByunit(id)
+	reqData, err := pc.Payment.GetReqByunit(id)
+	if  err != nil {
+		c.JSON(http.StatusBadRequest, models.ResponseErrorCustom{
+			Status:  http.StatusBadRequest,
+			Message: err.Error(),
+		})
+		return
+	}
 	response := models.ResponseCustom{
 		Status:  200,
 		Message: "Berhasil",

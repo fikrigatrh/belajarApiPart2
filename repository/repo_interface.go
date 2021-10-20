@@ -33,7 +33,7 @@ type LoginRepoInterface interface {
 
 type PaymentRepoInterface interface {
 	GetAllRequest() ([]models.EntityPayment, error)
-	GetReqByunit(id string) models.EntityPayment
+	GetReqByunit(id string)([]models.EntityPayment, error)
 	UpdateAprovalRepo(approval models.EntityPayment) (models.EntityPayment, error)
 	AddStatusReqRepo(status models.StatusRequest) models.StatusRequest
 	GetReqByIdPayment(id int) (models.EntityPayment, error)

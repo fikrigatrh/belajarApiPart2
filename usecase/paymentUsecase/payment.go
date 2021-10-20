@@ -23,10 +23,13 @@ func (ru PaymentUsecaseStruct) GetAllRequestUsecase() ([]models.EntityPayment, e
 	return getAllReq, nil
 }
 
-func (ru PaymentUsecaseStruct) GetReqByunit(id string) models.EntityPayment {
-	ReqData := ru.RequestRepo.GetReqByunit(id)
+func (ru PaymentUsecaseStruct) GetReqByunit(id string)([]models.EntityPayment, error) {
+	ReqData, err := ru.RequestRepo.GetReqByunit(id)
+	if err != nil {
+		return nil, err
+	}
 
-	return ReqData
+	return ReqData, nil
 }
 
 func (ru PaymentUsecaseStruct) UpdateAprovalUsecase(aproval models.EntityPayment, tipeReqRes string) (models.EntityPayment, error) {

@@ -23,13 +23,13 @@ func (pr PaymentRepoStruct) GetAllRequest() ([]models.EntityPayment, error) {
 	return request, nil
 }
 
-func (pr PaymentRepoStruct ) GetReqByunit(id string) models.EntityPayment  {
-	var transaksi models.EntityPayment
-	err := pr.db.Where("id_unit = ?", id).First(&transaksi).Error
+func (pr PaymentRepoStruct ) GetReqByunit(id string) ([]models.EntityPayment, error)  {
+	var transaksi []models.EntityPayment
+	err := pr.db.Where("id_unit = ?", id).Find(&transaksi).Error
 	if err != nil {
-		return models.EntityPayment{}
+		return nil, err
 	}
-	return transaksi
+	return transaksi, nil
 }
 
 //func (ar PaymentRepoStruct) UpdateAprovalRepo(approval models.Approval, id string) (models.Approval, error)  {
