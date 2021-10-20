@@ -31,6 +31,7 @@ type PaymentUsecaseInterface interface {
 	GetReqByunit (id string) ([]models.EntityPayment, error)
 	AddStatusReqUsecase(status models.StatusRequest)  models.StatusRequest
 	UpdateAprovalUsecase(aproval models.EntityPayment, tipeReqRes string) (models.EntityPayment, error)
+	GetReqIdPayment(id string) (models.EntityPayment, error)
 }
 
 //type StatusReqUscInterface interface {

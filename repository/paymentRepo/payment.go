@@ -24,12 +24,12 @@ func (pr PaymentRepoStruct) GetAllRequest() ([]models.EntityPayment, error) {
 }
 
 func (pr PaymentRepoStruct ) GetReqByunit(id string) ([]models.EntityPayment, error)  {
-	var transaksi []models.EntityPayment
-	err := pr.db.Where("id_unit = ?", id).Find(&transaksi).Error
+	var trans []models.EntityPayment
+	err := pr.db.Where("id_unit = ?", id).Find(&trans).Error
 	if err != nil {
 		return nil, err
 	}
-	return transaksi, nil
+	return trans, nil
 }
 
 //func (ar PaymentRepoStruct) UpdateAprovalRepo(approval models.Approval, id string) (models.Approval, error)  {

@@ -18,6 +18,7 @@ func NewPaymentControllerImpl(p *gin.RouterGroup, Payment usecase.PaymentUsecase
 
 	p.GET("/getAllRequestPayment", handler.GetAllRequest)
 	p.POST("/list_payment", handler.GetReqByUnit)
+	p.GET("/payment/:id", handler.GetRequestIdPayment)
 	p.POST("/statusPayment", handler.AddStatusReqController)
 	p.POST("/payment/status/:type", handler.ApprovalReqPayment)
 }
@@ -91,6 +92,10 @@ func (pc PaymentController) ApprovalReqPayment(c *gin.Context) {
 
 	approval, err := pc.Payment.UpdateAprovalUsecase(request, tipeReqRes)
 	if err != nil {
+		c.JSON(http.StatusBadRequest, models.ResponseErrorCustom{
+			Status:  http.StatusBadRequest,
+			Message: err.Error(),
+		})
 		return
 	}
 
@@ -101,4 +106,24 @@ func (pc PaymentController) ApprovalReqPayment(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, response)
 
+}
+
+func (pc PaymentController) GetRequestIdPayment(c *gin.Context) {
+	id := c.Param("id")
+
+	payment, err := pc.Payment.GetReqIdPayment(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.ResponseErrorCustom{
+			Status:  http.StatusBadRequest,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	response := models.ResponseCustom{
+		Status:  200,
+		Message: "Berhasil",
+		Data:    payment,
+	}
+	c.JSON(http.StatusOK, response)
 }

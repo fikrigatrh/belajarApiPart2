@@ -8,7 +8,7 @@ import (
 func AutoMigrate(db *gorm.DB) {
 	var err error
 
-	db.Debug().Migrator().DropTable(models.EntityPayment{})
+	//db.Debug().Migrator().DropTable(models.EntityPayment{})
 	// isi param automigrate dengan model/entitas
 	err = db.Debug().AutoMigrate(
 		models.OfficerAccount{},

@@ -4,6 +4,7 @@ import (
 	"backend-b-payment-monitoring/models"
 	"backend-b-payment-monitoring/repository"
 	"backend-b-payment-monitoring/usecase"
+	"strconv"
 )
 
 type PaymentUsecaseStruct struct {
@@ -73,4 +74,17 @@ func (ru PaymentUsecaseStruct) AddStatusReqUsecase(status models.StatusRequest) 
 	statusReq := ru.RequestRepo.AddStatusReqRepo(status)
 
 	return statusReq
+}
+
+func (ru PaymentUsecaseStruct) GetReqIdPayment(id string) (models.EntityPayment, error) {
+	idRes, err := strconv.Atoi(id)
+	if err != nil {
+		return models.EntityPayment{}, err
+	}
+	payment, err := ru.RequestRepo.GetReqByIdPayment(idRes)
+	if err != nil {
+		return models.EntityPayment{}, err
+	}
+
+	return payment, nil
 }
